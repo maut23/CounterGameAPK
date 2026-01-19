@@ -12,14 +12,29 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt update
-        sudo apt install -y python3-pip python3-dev git build-essential openjdk-17-jdk
+        sudo apt install -y python3-pip python3-dev git build-essential openjdk-17-jdk zip unzip
 
-    - name: Install Buildozer
+    - name: Install Buildozer & Cython
       run: |
         pip3 install --upgrade pip
-        pip3 install cython buildozer
+        pip3 install cython==0.29.36 buildozer==1.4.2
 
     - name: Build APK
       run: |
         buildozer init
+        echo "[app]" > buildozer.spec
+        echo "title = CounterGame" >> buildozer.spec
+        echo "package.name = countergame" >> buildozer.spec
+        echo "package.domain = org.example" >> buildozer.spec
+        echo "source.include_exts = py,png,jpg,kv,wav" >> buildozer.spec
+        echo "orientation = portrait" >> buildozer.spec
+        echo "version = 1.0" >> buildozer.spec
+        echo "requirements = python3,kivy" >> buildozer.spec
+        echo "android.arch = armeabi-v7a" >> buildozer.spec
         buildozer android debug
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v3
+      with:
+        name: apk
+        path: bin/*.apk
