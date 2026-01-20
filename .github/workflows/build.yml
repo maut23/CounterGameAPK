@@ -1,12 +1,44 @@
-- name: Accept Android SDK licenses
-  run: |
-    yes | sdkmanager --licenses
+name: Build Android APK
 
-- name: Install Android Build Tools & Platform Tools
-  run: |
-    sdkmanager "platform-tools" "platforms;android-33" "build-tools;33.0.2"
+on:
+  push:
+    branches:
+      - main
 
-- name: Build APK with Buildozer
-  run: |
-    buildozer android debug
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
+    steps:
+    # Step 1: Checkout your repository
+    - uses: actions/checkout@v3
+
+    # Step 2: Install dependencies
+    - name: Install dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y python3-pip python3-dev git build-essential openjdk-17-jdk unzip zlib1g-dev
+
+    # Step 3: Install Buildozer & Cython
+    - name: Install Buildozer
+      run: |
+        pip3 install --upgrade pip
+        pip3 install cython buildozer
+
+    # Step 4: Accept Android SDK licenses (auto)
+    - name: Prepare Buildozer
+      run: |
+        buildozer init
+        sed -i 's/#android.accept_sdk_license = False/android.accept_sdk_license = True/' buildozer.spec
+
+    # Step 5: Build APK
+    - name: Build APK
+      run: |
+        buildozer android debug
+
+    # Step 6: Upload APK as artifact
+    - name: Upload APK
+      uses: actions/upload-artifact@v3
+      with:
+        name: CounterGame-APK
+        path: bin/*.apk
