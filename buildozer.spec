@@ -1,72 +1,26 @@
 [app]
-
-# (str) Title of your application
-title = Counter Game
-
-# (str) Package name (use lowercase, no spaces)
+# (change the title, package name as you like)
+title = CounterGame
 package.name = countergame
+package.domain = org.maut23
+source.dir = .
+version = 0.1
+orientation = portrait
+fullscreen = 0
 
-# (str) Package domain (can be fake if not published)
-package.domain = org.example
-
-# (str) Source code filename
-source.include_exts = py,png,jpg,kv,atlas
-
-# (list) Source files to include
-source.include_patterns = assets/*
-
-# (str) Application version
-version = 1.0
-
-# (str) Requirements (Python modules + Kivy)
+# Requirements
 requirements = python3,kivy
 
-# (str) Icon of the app
-icon.filename = assets/icon.png
-
-# (str) Supported orientation (portrait, landscape)
-orientation = portrait
-
-# (bool) Whether to fullscreen
-fullscreen = 1
-
-# (str) Presplash image (optional)
-presplash.filename = assets/icon.png
-
-# (str) Supported Android API
-android.api = 33
-
-# (str) Minimum API your app supports
-android.minapi = 21
-
-# (str) Android SDK build-tools version (stable)
-android.build_tools_version = 33.0.2
-
-# (bool) Automatically accept SDK licenses
-android.accept_sdk_license = True
-
-# (str) Android entry point
-android.entrypoint = org.kivy.android.PythonActivity
-
-# (str) Python version to use
-android.python_version = 3
-
-# (list) Permissions your app may need
-android.permissions = INTERNET
-
-# (str) Extra Android arguments (optional)
-# android.extra_gradle_dependencies =
-
-[buildozer]
-
-# (str) Log level
-log_level = 2
-
-# (str) Target platform
-target = android
-
-# (str) Whether to clean build before compiling
-clean_build = True
+# Android
 android.sdk = 24
 android.ndk = 23b
 android.accept_sdk_license = True
+
+# Permissions (optional, for Play Store)
+android.permissions = INTERNET
+
+# Target API (Play Store now needs 33+)
+android.api = 33
+android.minapi = 21
+android.ndk_api = 21
+
