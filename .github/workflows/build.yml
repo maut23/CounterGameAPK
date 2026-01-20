@@ -12,15 +12,22 @@ jobs:
     - name: Install system dependencies
       run: |
         sudo apt update
-        sudo apt install -y python3-pip python3-dev git zip unzip \
-        build-essential openjdk-17-jdk libffi-dev libssl-dev
+        sudo apt install -y python3-pip python3-dev git \
+        build-essential openjdk-17-jdk unzip zip
 
     - name: Install Buildozer
       run: |
         pip3 install --upgrade pip
         pip3 install cython buildozer
 
+    - name: Accept Android SDK Licenses
+      run: |
+        mkdir -p $HOME/.android
+        touch $HOME/.android/repositories.cfg
+        yes | sdkmanager --licenses || true
+
     - name: Build APK
       run: |
-        yes | buildozer android debug
-
+        buildozer init
+        sed -i 's/#android.accept_sdk_license = False/android.accept_sdk_license = True/' buildozer.spec
+        buildozer android debug
