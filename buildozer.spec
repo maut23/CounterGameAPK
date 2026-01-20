@@ -13,7 +13,7 @@ requirements = python3,kivy
 
 # Android
 android.sdk = 24
-android.ndk = 23b
+android.ndk = 25b
 android.accept_sdk_license = True
 
 # Permissions (optional, for Play Store)
