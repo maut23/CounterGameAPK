@@ -1,38 +1,26 @@
 name: Build Android APK
 
-on:
-  push:
-    branches: [ main ]
+on: [push]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
     - name: Install system dependencies
       run: |
         sudo apt update
-        sudo apt install -y \
-          python3-pip python3-dev \
-          build-essential git \
-          openjdk-17-jdk \
-          unzip zip
+        sudo apt install -y python3-pip python3-dev git zip unzip \
+        build-essential openjdk-17-jdk libffi-dev libssl-dev
 
     - name: Install Buildozer
       run: |
-        python3 -m pip install --upgrade pip
-        pip install cython buildozer
+        pip3 install --upgrade pip
+        pip3 install cython buildozer
 
     - name: Build APK
       run: |
-        buildozer init
-        buildozer android debug
+        yes | buildozer android debug
 
-    - name: Upload APK
-      uses: actions/upload-artifact@v4
-      with:
-        name: CounterGame-APK
-        path: bin/*.apk
