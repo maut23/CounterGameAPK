@@ -10,33 +10,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Step 1: Checkout your repository
+    # 1️⃣ Checkout your repo
     - uses: actions/checkout@v3
 
-    # Step 2: Install dependencies
+    # 2️⃣ Install dependencies
     - name: Install dependencies
       run: |
         sudo apt update
         sudo apt install -y python3-pip python3-dev git build-essential openjdk-17-jdk unzip zlib1g-dev
 
-    # Step 3: Install Buildozer & Cython
+    # 3️⃣ Install Buildozer & Cython
     - name: Install Buildozer
       run: |
         pip3 install --upgrade pip
         pip3 install cython buildozer
 
-    # Step 4: Accept Android SDK licenses (auto)
+    # 4️⃣ Accept Android SDK licenses & prepare buildozer
     - name: Prepare Buildozer
       run: |
         buildozer init
         sed -i 's/#android.accept_sdk_license = False/android.accept_sdk_license = True/' buildozer.spec
 
-    # Step 5: Build APK
+    # 5️⃣ Build APK
     - name: Build APK
       run: |
         buildozer android debug
 
-    # Step 6: Upload APK as artifact
+    # 6️⃣ Upload APK artifact
     - name: Upload APK
       uses: actions/upload-artifact@v3
       with:
