@@ -67,3 +67,6 @@ target = android
 
 # (str) Whether to clean build before compiling
 clean_build = True
+android.sdk = 24
+android.ndk = 23b
+android.accept_sdk_license = True
